@@ -8,7 +8,6 @@ This repository explores the Azure CosmosDB Batch API capabilities (2024-04-28) 
 
 - CosmosDB
     - cosmosDB database (NoSQL API)
-    - cosmosDB container
     - access key
 - Application Insights
     - Connection String
@@ -28,7 +27,9 @@ settings.tracing_implementation = OpenTelemetrySpan
 and setting up the Azure Monitor Trace Exporter (azure-monitor-opentelemetry), here
 with [logging_service.py](logging_service.py),
 
-we can see that multiple requests to the cosmosDB are reduced to a single request.
+we can see that what normally would require multiple requests to the cosmosDB can be reduced to a single request using
+the
+batch API.
 
 ## Limitations
 
