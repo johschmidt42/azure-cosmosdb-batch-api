@@ -1,0 +1,7 @@
+azure-cosmos
+azure-identity
+pydantic
+pydantic-settings
+opentelemetry-api
+opentelemetry-sdk
+azure-monitor-opentelemetry
