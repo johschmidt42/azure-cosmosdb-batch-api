@@ -48,7 +48,7 @@ TODO: add image
 python main.py
 ```
 
-## Notes
+## Notes, Insights & TODOs
 
 - If there is an error on any of the operations, nothing is committed.
 - If there are multiple read operations and there is at least one missing document, the data is not returned.
