@@ -1,6 +1,7 @@
 from typing import Optional
 
 from azure.cosmos import ContainerProxy, CosmosClient, DatabaseProxy
+from azure.identity import DefaultAzureCredential
 from pydantic import computed_field
 from pydantic_settings import BaseSettings
 
@@ -11,7 +12,7 @@ class Settings(BaseSettings):
     COSMOSDB_CONTAINER_NAME: str
     COSMOSDB_DATABASE_NAME: str
     COSMOSDB_PARTITION_KEY: str
-    COSMOSDB_ACCESS_KEY: str
+    COSMOSDB_ACCESS_KEY: Optional[str] = None
 
     @computed_field
     @property
@@ -26,10 +27,17 @@ class DB:
 
     def _init_connection(self):
         self.cosmos_client: CosmosClient = CosmosClient(
-            url=self.settings.host, credential=self.settings.COSMOSDB_ACCESS_KEY
+            url=self.settings.host,
+            credential=(
+                self.settings.COSMOSDB_ACCESS_KEY
+                if self.settings.COSMOSDB_ACCESS_KEY
+                else DefaultAzureCredential()
+            ),
         )
-        self.database_client: DatabaseProxy = self.cosmos_client.get_database_client(
-            database=self.settings.COSMOSDB_DATABASE_NAME
+        self.database_client: DatabaseProxy = (
+            self.cosmos_client.get_database_client(  # noqa: E501
+                database=self.settings.COSMOSDB_DATABASE_NAME  # noqa: E501
+            )
         )
         self.container_client: ContainerProxy = (
             self.database_client.get_container_client(
